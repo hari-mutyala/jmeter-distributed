@@ -1,0 +1,114 @@
+### New version below 
+
+version: "3.9"
+
+networks: 
+ jmeter-net:
+  driver: bridge
+  ipam:
+    config:
+      - subnet: 192.168.1.0/24
+volumes:
+  jmeter-vol:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/opt/jmeter'
+
+services:
+  slave1:
+    image: jmeter-load
+    networks:
+      jmeter-net:
+        ipv4_address: 192.168.1.11
+    volumes:
+     - jmeter-vol:/mnt/jmeter
+    command:
+      -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks \
+      -s -n  \ 
+      -Jclient.rmi.localport=7000  \
+      -Jserver.rmi.localport=60000  \
+      -dit -X -n --rm  \
+      -j /mnt/jmeter/server/slave_$(date+%Y%m%d_%H%M%S)_192.168.1.11.logdone
+      
+  # slave2:
+  #   image: jmeter-load
+  #   networks:
+  #     jmeter-net:
+  #       ipv4_address: 192.168.1.12
+  #   volumes:
+  #     - .:/mnt/jmeter    
+  #   command:
+  #     -dit --net jmeter_net --ip $IP_ADD \
+  #     -v "$(pwd)":/mnt/jmeter \
+  #     -Jserver.rmi.localport=60000  \
+  #     -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks
+  master:
+    image: jmeter-load
+    volumes:
+     - jmeter-vol:/mnt/jmeter
+    networks:
+      jmeter-net:
+        ipv4_address: 192.168.1.10      
+    command:
+      -n -X --rm
+      -Jclient.rmi.localport=7000  \      
+      -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks  \
+      -R 192.168.1.11  \
+      -t /mnt/jmeter/API_PERF.jmx  \
+      -l /mnt/jmeter/master/result_$(date+%Y%m%d_%H%M%S).jtl  \
+      -j /mnt/jmeter/master/jmeter_$(date+%Y%m%d_%H%M%S).log
+
+
+# services:
+#   jmetermaster:
+#     image: hmutyala/jmeter-docker:v1
+#     container_name: jmetermaster
+#     networks:
+#       - jmeter-network
+#     ports:
+#       - "60000"
+#   volumes:
+#       - "./test/:/jmeter/sample/"  
+#    #volumes: -.:/mnt/jmeter
+#     command: 
+#     -s -n -Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000
+
+
+#   jmeterslave1:
+#     image: jmeter-docker:v1
+#     container_name: jmeterslave1
+#     networks:
+#       - jmeter-network
+#     ports:
+#       - "50000"
+#       - "1099"  
+#     volumes: -.:/mnt/jmeter
+#     command: 
+#       -s -n -Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000
+#     depends_on:
+#       - master
+ 
+#   jmeterslave2:
+#     image: jmeter-docker:v1
+#     container_name: jmeterslave2
+#     networks:
+#       - jmeter-network
+#     ports:
+#       - "50000"
+#       - "1099"  
+#     volumes: -.:/mnt/jmeter
+#     command: 
+#       -s -n -Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000
+#     depends_on:
+#       - master
+
+# networks:
+#   - jmeter-net
+#     - ip $IP_ADD
+
+# volumes:
+#       -type: volume   
+#       source: /mnt/jmeter
+#       target: /data
