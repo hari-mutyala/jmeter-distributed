@@ -33,7 +33,8 @@ RUN    apk update \
 	&& chmod +x ${JMETER_HOME}/bin/examples/  \
 	&& apk add --update zip  \
 	&& mkdir -p -m 777 ${JMETER_HOME}/bin/reports  \
-	&& chmod 777 ${JMETER_HOME}/bin/reports
+	&& chmod 777 ${JMETER_HOME}/bin/reports  \
+	&& echo "server.rmi.ssl.disable=true" >> ${JMETER_HOME}/bin/jmeter.properties
 
 RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-dummy/0.4/jmeter-plugins-dummy-0.4.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-dummy-0.4.jar
 RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-cmn-jmeter/0.7/jmeter-plugins-cmn-jmeter-0.7.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-cmn-jmeter-0.7.jar

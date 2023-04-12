@@ -25,9 +25,9 @@ services:
         ipv4_address: 192.168.1.11
     volumes:
      - jmeter-vol:/mnt/jmeter
-#      - jmeter-vol:/opt/apache-jmeter-5.5/bin
     command:
-      -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks \
+    # -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks \
+      -sh /opt/apache-jmeter-5.5/bin/jmeter-server.sh  \
       -s -n  \ 
       -Jclient.rmi.localport=7000  \
       -Jserver.rmi.localport=60000  \
