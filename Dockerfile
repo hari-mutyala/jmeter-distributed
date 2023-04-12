@@ -33,9 +33,7 @@ RUN    apk update \
 	&& chmod +x ${JMETER_HOME}/bin/examples/  \
 	&& apk add --update zip  \
 	&& mkdir -p -m 777 $${JMETER_HOME}/bin/reports  \
-	&& chmod 777 ${JMETER_HOME}/bin/reports  \
-#	&& sh ${JMETER_HOME}/bin/create-rmi-keystore.sh -dname 'CN=jmeter'  \
-#   && cp rmi_keystore.jks ${JMETER_HOME}/bin/
+	&& chmod 777 ${JMETER_HOME}/bin/reports
 
 RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-dummy/0.4/jmeter-plugins-dummy-0.4.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-dummy-0.4.jar
 RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-cmn-jmeter/0.7/jmeter-plugins-cmn-jmeter-0.7.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-cmn-jmeter-0.7.jar
