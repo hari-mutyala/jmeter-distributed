@@ -18,7 +18,7 @@ volumes:
 
 services:
   slave1:
-    image: jmeter-load
+    image: jmeter-distributed
     networks:
       jmeter-net:
         ipv4_address: 192.168.1.11
@@ -33,7 +33,7 @@ services:
       -j /mnt/jmeter/server/slave_$(date+%Y%m%d_%H%M%S)_192.168.1.11.logdone
       
   # slave2:
-  #   image: jmeter-load
+  #   image: jmeter-distributed
   #   networks:
   #     jmeter-net:
   #       ipv4_address: 192.168.1.12
@@ -45,7 +45,7 @@ services:
   #     -Jserver.rmi.localport=60000  \
   #     -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks
   master:
-    image: jmeter-load
+    image: jmeter-distributed
     volumes:
      - jmeter-vol:/mnt/jmeter
     networks:
