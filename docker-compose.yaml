@@ -23,7 +23,8 @@ services:
       jmeter-net:
         ipv4_address: 192.168.1.11
     volumes:
-     - jmeter-vol:/mnt/jmeter
+#     - jmeter-vol:/mnt/jmeter
+      - jmeter-vol:/opt/apache-jmeter-5.5/bin
     command:
       -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks \
       -s -n  \ 
@@ -44,21 +45,21 @@ services:
   #     -v "$(pwd)":/mnt/jmeter \
   #     -Jserver.rmi.localport=60000  \
   #     -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks
-  master:
-    image: hmutyala/jmeter-distributed
-    volumes:
-     - jmeter-vol:/mnt/jmeter
-    networks:
-      jmeter-net:
-        ipv4_address: 192.168.1.10      
-    command:
-      -n -X --rm
-      -Jclient.rmi.localport=7000  \      
-      -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks  \
-      -R 192.168.1.11  \
-      -t /mnt/jmeter/API_PERF.jmx  \
-      -l /mnt/jmeter/master/result_$(date+%Y%m%d_%H%M%S).jtl  \
-      -j /mnt/jmeter/master/jmeter_$(date+%Y%m%d_%H%M%S).log
+  # master:
+  #   image: hmutyala/jmeter-distributed
+  #   volumes:
+  #    - jmeter-vol:/mnt/jmeter
+  #   networks:
+  #     jmeter-net:
+  #       ipv4_address: 192.168.1.10      
+  #   command:
+  #     -n -X --rm
+  #     -Jclient.rmi.localport=7000  \      
+  #     -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks  \
+  #     -R 192.168.1.11  \
+  #     -t /mnt/jmeter/API_PERF.jmx  \
+  #     -l /mnt/jmeter/master/result_$(date+%Y%m%d_%H%M%S).jtl  \
+  #     -j /mnt/jmeter/master/jmeter_$(date+%Y%m%d_%H%M%S).log
 
 
 # services:
