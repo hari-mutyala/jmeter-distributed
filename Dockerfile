@@ -31,8 +31,8 @@ RUN    apk update \
 	&& rm -rf /tmp/dependencies  \
 	&& chmod +x ${JMETER_HOME}/bin/  \
 	&& chmod +x ${JMETER_HOME}/bin/examples/  \
-	&& apk add --update zip  
-RUN	   mkdir -p -m 777 $${JMETER_HOME}/bin/reports  \
+	&& apk add --update zip  \
+	&& mkdir -p -m 777 ${JMETER_HOME}/bin/reports  \
 	&& chmod 777 ${JMETER_HOME}/bin/reports
 
 RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-dummy/0.4/jmeter-plugins-dummy-0.4.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-dummy-0.4.jar
