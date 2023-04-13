@@ -1,5 +1,5 @@
 
-FROM alpine:3.12
+FROM alpine:3.6
 
 LABEL AUTHOR="Hari Mutyala"
 LABEL ORG="Innominds Software Inc"
@@ -10,8 +10,8 @@ ENV	JMETER_BIN	${JMETER_HOME}/bin
 ENV	JMETER_DOWNLOAD_URL  https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
 ENV JMETER_PLUGINS_DOWNLOAD_URL http://repo1.maven.org/maven2/kg/apc
 ENV JMETER_PLUGINS_FOLDER ${JMETER_HOME}/lib/ext
-#ENV SCRIPT_NAME Distri_Test1.jmx
-#ENV REMOTE_HOSTS="10.0.2.2,10.0.2.3"
+ENV SCRIPT_NAME Distri_Test1.jmx
+
 
 # Install extra packages
 # Set TimeZone, See: https://github.com/gliderlabs/docker-alpine/issues/136#issuecomment-612751142
@@ -42,18 +42,17 @@ RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-cmn-jmeter/0.
 # Set global PATH such that "jmeter" command is found
 ENV PATH $PATH:$JMETER_BIN
 
+COPY launch.sh /
+
 WORKDIR ${JMETER_HOME}
 
-#EXPOSE 1099
-#EXPOSE 1100
+#COPY ${SCRIPT_NAME} ${JMETER_HOME}/bin/examples/
 
-COPY ${SCRIPT_NAME} ${JMETER_HOME}/bin/examples/
-
-RUN  chmod +x ${JMETER_HOME}/bin/examples/${SCRIPT_NAME}
+#RUN  chmod +x ${JMETER_HOME}/bin/examples/${SCRIPT_NAME}
 
 #COPY launch.sh /
 
-#ENTRYPOINT ["/launch.sh"]
+ENTRYPOINT ["/launch.sh"]
 	 	
 #ENTRYPOINT ["/entrypoint.sh"]
 

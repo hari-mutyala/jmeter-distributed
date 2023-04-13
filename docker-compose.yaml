@@ -27,13 +27,12 @@ services:
      - jmeter-vol:/mnt/jmeter
     command:
     # -Jserver.rmi.ssl.keystore.file=/mnt/jmeter/rmi_keystore.jks \
-      -sh /opt/apache-jmeter-5.5/bin/jmeter-server.sh  \
-      -s -n  \ 
-      -Jclient.rmi.localport=7000  \
-      -Jserver.rmi.localport=60000  \
-      -dit -X -n --rm  \
-      -j /mnt/jmeter/server/slave_$(date+%Y%m%d_%H%M%S)_192.168.1.11.logdone
-      
+      -n -s  \       
+      -dit \
+      -Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000  \    
+      -j /mnt/jmeter/slave_$(date+%Y%m%d_%H%M%S)_192.168.1.11.logdone
+      # -X --rm  \
+
   # slave2:
   #   image: hmutyala/jmeter-distributed
   #   networks:
