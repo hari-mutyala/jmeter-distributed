@@ -21,6 +21,7 @@ RUN    apk update \
 	&& apk add ca-certificates \
 	&& update-ca-certificates \
 	&& apk add --update openjdk8-jre tzdata curl unzip bash \
+##	&& apk add --update openjdk11-jre tzdata curl unzip bash \
 	&& apk add --no-cache nss \
 	&& rm -rf /var/cache/apk/* \
 	&& mkdir -p /tmp/dependencies  \
@@ -51,8 +52,10 @@ WORKDIR ${JMETER_HOME}
 
 #COPY launch.sh /
 
-ENTRYPOINT ["/launch.sh"]
-	 	
+#ENTRYPOINT ["/launch.sh"]
+
+ENTRYPOINT [""]	 	
+
 #ENTRYPOINT ["/entrypoint.sh"]
 
 #ENTRYPOINT sh ${JMETER_HOME}/bin/jmeter.sh -n -t ${JMETER_HOME}/bin/examples/${SCRIPT_NAME} -R 10.0.2.2,10.0.2.3 -l ${JMETER_HOME}/bin/reports/report1.log -e -o ${JMETER_HOME}/bin/reports  \
